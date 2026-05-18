@@ -1,0 +1,11 @@
+{
+  "actor_id": "AC_dc6e2a7ae93b8bae",
+  "actor_record": {
+    "first_name": "Bachi",
+    "last_name": "Eight",
+    "email_registration": "bachi8@yahoo.com"
+  },
+  "verifier_id": "AC_SYSTEM_ADMIN_001",
+  "decision": "VERIFIED",
+  "notes": "KYC documents verified manually."
+}

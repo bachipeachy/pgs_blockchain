@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Wallet — PGS</title>
+    <link rel="stylesheet" href="css/wallet.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <img src="img/pgs_logo.png" alt="PGS" class="logo">
+            <h1 class="app-title">Blockchain Wallet</h1>
+            <img src="img/ob_logo.png" alt="PGS" class="logo">
+        </div>
+        <nav class="screen-nav">
+            <a href="register_actor.html">Register Actor</a>
+            <a href="verify_actor.html">Verify Actor</a>
+            <a href="create_wallet.html">Create Wallet</a>
+            <a href="submit_transaction.html">Submit Transaction</a>
+        </nav>
+    </header>
+
+    <div class="card-grid">
+        <a href="register_actor.html" class="card">
+            <span class="step-number">1</span>
+            <h3>Register Actor</h3>
+            <p>Register a new unverified actor in the system. Provide name and email to create an identity record.</p>
+        </a>
+
+        <a href="verify_actor.html" class="card">
+            <span class="step-number">2</span>
+            <h3>Verify Actor</h3>
+            <p>Verify a registered actor's identity. A verifier reviews and approves or rejects the registration.</p>
+        </a>
+
+        <a href="create_wallet.html" class="card">
+            <span class="step-number">3</span>
+            <h3>Create Wallet</h3>
+            <p>Create a blockchain wallet for a verified actor with HD-derived cryptographic addresses (EOA + UTXO).</p>
+        </a>
+
+        <a href="submit_transaction.html" class="card">
+            <span class="step-number">4</span>
+            <h3>Submit Transaction</h3>
+            <p>Submit a transaction to the blockchain using a verified actor's wallet and credentials.</p>
+        </a>
+    </div>
+
+    <footer class="app-footer">
+        PGS Thin Client Transport v0 — Protocol-Governed Systems
+    </footer>
+</body>
+</html>

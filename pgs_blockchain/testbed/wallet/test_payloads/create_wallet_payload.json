@@ -1,0 +1,17 @@
+{
+  "actor_id": "AC_dc6e2a7ae93b8bae",
+  "actor_record": {
+    "first_name": "Bachi",
+    "last_name": "Eight",
+    "email_registration": "bachi8@yahoo.com"
+  },
+  "wallet_type": "business",
+  "wallet_config": {
+    "name": "Bachi's Business Wallet",
+    "currency": "BACHI",
+    "metadata": {
+      "security_type": "hot",
+      "network": "testnet"
+    }
+  }
+}

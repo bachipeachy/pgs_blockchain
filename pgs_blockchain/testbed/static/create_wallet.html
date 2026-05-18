@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Wallet — Blockchain Wallet</title>
+    <link rel="stylesheet" href="css/wallet.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <img src="img/pgs_logo.png" alt="PGS" class="logo">
+            <h1 class="app-title">Blockchain Wallet</h1>
+            <img src="img/ob_logo.png" alt="PGS" class="logo">
+        </div>
+        <nav class="screen-nav">
+            <a href="register_actor.html">Register Actor</a>
+            <a href="verify_actor.html">Verify Actor</a>
+            <a href="create_wallet.html" class="active">Create Wallet</a>
+            <a href="submit_transaction.html">Submit Transaction</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Create Blockchain Wallet</h2>
+
+        <form id="wallet-form" data-workflow="blockchain::WF_CREATE_WALLET_V0"
+              data-structure="governance.layers::STRUCTURE_RUNTIME_EXECUTION_V0"
+              onsubmit="event.preventDefault(); submitWorkflow('wallet-form');">
+
+            <div class="form-group">
+                <label for="actor_id">Actor ID</label>
+                <input type="text" id="actor_id" data-field="actor_id" placeholder="AC_..." required>
+            </div>
+
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" data-field="actor_record.first_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" data-field="actor_record.last_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" data-field="actor_record.email_registration" required>
+            </div>
+
+            <div class="form-group">
+                <label for="wallet_type">Wallet Type</label>
+                <select id="wallet_type" data-field="wallet_type" required>
+                    <option value="business">Business</option>
+                    <option value="personal">Personal</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="wallet_name">Wallet Name</label>
+                <input type="text" id="wallet_name" data-field="wallet_config.name" placeholder="My Wallet">
+            </div>
+
+            <div class="form-group">
+                <label for="currency">Currency</label>
+                <input type="text" id="currency" data-field="wallet_config.currency" value="BACHI">
+            </div>
+
+            <div class="form-group">
+                <label for="network">Network</label>
+                <select id="network" data-field="wallet_config.metadata.network">
+                    <option value="testnet">Testnet</option>
+                    <option value="mainnet">Mainnet</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="security_type">Security Type</label>
+                <select id="security_type" data-field="wallet_config.metadata.security_type">
+                    <option value="hot">Hot</option>
+                    <option value="cold">Cold</option>
+                </select>
+            </div>
+
+            <button type="submit" class="primary-button">Create Wallet</button>
+        </form>
+
+        <div id="result" class="result-panel"></div>
+    </div>
+
+    <footer class="app-footer">
+        PGS Thin Client Transport v0 — Protocol-Governed Systems
+    </footer>
+
+    <script src="js/wallet_bridge.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+/* wallet.css — Clean enterprise theme for thin client demo */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+
+.app-header {
+    background-color: #0b1e3c;
+    padding: 16px 0; /* Removed horizontal padding to let inner container handle it */
+    border-bottom: 3px solid #d4af37;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 560px; /* Matches .container width */
+    margin: 0 auto;
+    padding: 0 20px; /* Add padding to match card padding if needed, or just for safety */
+}
+
+.logo {
+    height: 64px;
+    width: auto;
+    object-fit: contain;
+}
+
+.app-title {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+    flex-grow: 1;
+    margin: 0 16px;
+}
+
+/* ── Navigation ──────────────────────────────────────────── */
+
+.screen-nav {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px 0 0;
+}
+
+.screen-nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.screen-nav a:hover,
+.screen-nav a.active {
+    color: #d4af37;
+    border-bottom-color: #d4af37;
+}
+
+/* ── Container / Card ────────────────────────────────────── */
+
+.container {
+    max-width: 560px;
+    margin: 48px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.container h2 {
+    margin-bottom: 28px;
+    text-align: center;
+    font-size: 22px;
+    color: #0b1e3c;
+}
+
+/* ── Landing page cards ──────────────────────────────────── */
+
+.card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 560px;
+    margin: 48px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 28px 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, transform 0.15s;
+    display: block;
+}
+
+.card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.card .step-number {
+    display: inline-block;
+    background: #0b1e3c;
+    color: #d4af37;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 12px;
+}
+
+.card h3 {
+    display: inline;
+    font-size: 18px;
+    color: #0b1e3c;
+}
+
+.card p {
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ── Form ────────────────────────────────────────────────── */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 15px;
+    font-family: inherit;
+    background: #fafbfc;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0b1e3c;
+    background: white;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.primary-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0b1e3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s;
+}
+
+.primary-button:hover {
+    background-color: #123066;
+}
+
+.primary-button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* ── Result display ──────────────────────────────────────── */
+
+.result-panel {
+    margin-top: 28px;
+    padding: 20px;
+    border-radius: 6px;
+    display: none;
+}
+
+.result-panel.visible {
+    display: block;
+}
+
+.result-panel.success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+}
+
+.result-panel.error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+}
+
+.result-panel.already-submitted {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+}
+
+.result-panel .status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.result-panel.success .status-badge {
+    background: #166534;
+    color: white;
+}
+
+.result-panel.error .status-badge {
+    background: #991b1b;
+    color: white;
+}
+
+.result-panel.already-submitted .status-badge {
+    background: #92400e;
+    color: white;
+}
+
+.result-field {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.result-field .label {
+    font-weight: bold;
+    color: #475569;
+    display: inline-block;
+    min-width: 110px;
+}
+
+.result-field .value {
+    color: #1e293b;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+}
+
+.result-json {
+    margin-top: 12px;
+    padding: 12px;
+    background: #1e293b;
+    color: #e2e8f0;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* ── Form sections (fieldset) ────────────────────────────── */
+
+.form-section {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px 20px 8px;
+    margin-bottom: 20px;
+}
+
+.form-section legend {
+    font-size: 13px;
+    font-weight: bold;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 8px;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.app-footer {
+    text-align: center;
+    padding: 24px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .container {
+        margin: 24px 16px;
+        padding: 24px;
+    }
+
+    .header-inner {
+        padding: 0 16px;
+    }
+
+    .logo {
+        height: 48px;
+    }
+
+    .app-title {
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Transaction — Blockchain Wallet</title>
+    <link rel="stylesheet" href="css/wallet.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <img src="img/pgs_logo.png" alt="PGS" class="logo">
+            <h1 class="app-title">Blockchain Wallet</h1>
+            <img src="img/ob_logo.png" alt="PGS" class="logo">
+        </div>
+        <nav class="screen-nav">
+            <a href="register_actor.html">Register Actor</a>
+            <a href="verify_actor.html">Verify Actor</a>
+            <a href="create_wallet.html">Create Wallet</a>
+            <a href="submit_transaction.html" class="active">Submit Transaction</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Submit Transaction</h2>
+
+        <form id="tx-form" data-workflow="blockchain::WF_SUBMIT_TRANSACTION_V0"
+              data-structure="governance.layers::STRUCTURE_RUNTIME_EXECUTION_V0"
+              onsubmit="event.preventDefault(); submitWorkflow('tx-form');">
+
+            <fieldset class="form-section">
+                <legend>Actor Identity</legend>
+
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" data-field="actor_record.first_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" data-field="actor_record.last_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" data-field="actor_record.email_registration" required>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+                <legend>Wallet</legend>
+
+                <div class="form-group">
+                    <label for="wallet_id">Wallet ID</label>
+                    <input type="text" id="wallet_id" data-field="wallet_id" placeholder="W_xxxxxxxxxxxx" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mnemonic">Mnemonic (BIP-39)</label>
+                    <textarea id="mnemonic" data-field="mnemonic" rows="2" required>legal winner thank year wave sausage worth useful legal winner thank yellow</textarea>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+                <legend>Transaction Details</legend>
+
+                <div class="form-group">
+                    <label for="to_address">To Address</label>
+                    <input type="text" id="to_address" data-field="to_address"
+                           placeholder="0x..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="value">Value (wei)</label>
+                    <input type="text" id="value" data-field="value"
+                           placeholder="1000000000000000000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gas_limit">Gas Limit</label>
+                    <input type="text" id="gas_limit" data-field="gas_limit" value="21000">
+                </div>
+
+                <div class="form-group">
+                    <label for="max_fee_per_gas">Max Fee Per Gas (wei)</label>
+                    <input type="text" id="max_fee_per_gas" data-field="max_fee_per_gas" value="20000000000">
+                </div>
+
+                <div class="form-group">
+                    <label for="max_priority_fee_per_gas">Max Priority Fee Per Gas (wei)</label>
+                    <input type="text" id="max_priority_fee_per_gas" data-field="max_priority_fee_per_gas" value="1000000000">
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data (hex)</label>
+                    <input type="text" id="data" data-field="data" value="0x">
+                </div>
+            </fieldset>
+
+            <button type="submit" class="primary-button">Submit Transaction</button>
+        </form>
+
+        <div id="result" class="result-panel"></div>
+    </div>
+
+    <footer class="app-footer">
+        PGS Thin Client Transport v0 — Protocol-Governed Systems
+    </footer>
+
+    <script src="js/wallet_bridge.js"></script>
+</body>
+</html>

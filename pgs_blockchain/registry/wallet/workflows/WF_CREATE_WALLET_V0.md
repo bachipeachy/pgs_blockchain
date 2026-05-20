@@ -93,6 +93,7 @@ wf_code: WF_CREATE_WALLET_V0
 version: v0
 governed_by: fb.topology::CONSTITUTION_WORKFLOW_V0
 runtime_binding: blockchain::RB_CREATE_WALLET_V0
+subdomain: wallet
 
 core:
   runtime_binding: blockchain::RB_CREATE_WALLET_V0

@@ -25,9 +25,9 @@ core:
   bindings:
     capability_side_effects::CS_REGISTRY_V0:
       policy:
-        path: "{{module_data_root}}/registry/actors.json"
+        path: "{{module_data_root}}/blockchain/identity/registry/actors.json"
 
     capability_side_effects::CS_APPENDONLY_JSONL_V0:
       policy:
-        path: "{{module_data_root}}/events/identity_events.jsonl"
+        path: "{{module_data_root}}/blockchain/identity/events/identity_events.jsonl"
 ```

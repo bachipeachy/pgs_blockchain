@@ -68,6 +68,7 @@ version: v0
 governed_by: fb.topology::CONSTITUTION_WORKFLOW_V0
 
 runtime_binding: blockchain::RB_REGISTER_ACTOR_UNVERIFIED_V0
+subdomain: identity
 
 core:
   summary: Register an unverified actor

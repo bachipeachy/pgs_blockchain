@@ -73,6 +73,7 @@ wf_code: WF_VERIFY_ACTOR_V0
 version: V0
 governed_by: fb.topology::CONSTITUTION_WORKFLOW_V0
 runtime_binding: blockchain::RB_VERIFY_ACTOR_V0
+subdomain: identity
 
 core:
   runtime_binding: blockchain::RB_VERIFY_ACTOR_V0

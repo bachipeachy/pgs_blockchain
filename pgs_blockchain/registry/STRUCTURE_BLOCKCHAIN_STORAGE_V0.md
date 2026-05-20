@@ -62,32 +62,32 @@ core:
   entity_stores:
     ACTOR:
       description: "Actor identity registry (KYC → actor_id resolution)"
-      path: "registry/actors.json"
+      path: "blockchain/identity/registry/actors.json"
 
     WALLET:
       description: "Wallet state storage (wallet_id → wallet record)"
-      path: "state/wallets.json"
+      path: "blockchain/wallet/state/wallets.json"
 
     TRANSACTION:
       description: "Transaction state storage (tx_id → transaction record)"
-      path: "state/transactions.json"
+      path: "blockchain/transaction/state/transactions.json"
 
     WALLET_EVENTS:
       description: "Wallet lifecycle event journal"
-      path: "events/wallet_events.jsonl"
+      path: "blockchain/wallet/events/wallet_events.jsonl"
 
     TRANSACTION_EVENTS:
       description: "Transaction lifecycle event journal"
-      path: "events/transaction_events.jsonl"
+      path: "blockchain/transaction/events/transaction_events.jsonl"
 
     ACTOR_EVENTS:
       description: "Actor lifecycle event journal"
-      path: "events/actor_events.jsonl"
+      path: "blockchain/identity/events/identity_events.jsonl"
 
   resolution:
     description: "Runtime path resolution strategy"
     algorithm: "base_path / entity_stores[entity_type].path"
-    example: "{{module_data_root}}/state/wallets.json"
+    example: "{{module_data_root}}/blockchain/wallet/state/wallets.json"
 
   isolation:
     description: "Entity storage isolation constraints"

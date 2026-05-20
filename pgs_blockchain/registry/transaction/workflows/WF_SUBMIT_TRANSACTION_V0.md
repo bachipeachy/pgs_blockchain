@@ -101,6 +101,7 @@ wf_code: WF_SUBMIT_TRANSACTION_V0
 version: v0
 governed_by: fb.topology::CONSTITUTION_WORKFLOW_V0
 runtime_binding: blockchain::RB_SUBMIT_TRANSACTION_V0
+subdomain: transaction
 
 core:
   runtime_binding: blockchain::RB_SUBMIT_TRANSACTION_V0

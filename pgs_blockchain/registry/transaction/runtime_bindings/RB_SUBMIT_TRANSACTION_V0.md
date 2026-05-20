@@ -26,11 +26,11 @@ core:
   bindings:
     capability_side_effects::CS_REGISTRY_V0:
       policy:
-        path: "{{module_data_root}}/registry/actors.json"
+        path: "{{module_data_root}}/blockchain/identity/registry/actors.json"
 
     capability_side_effects::CS_APPENDONLY_JSONL_V0:
       policy:
-        path: "{{module_data_root}}/events/transaction_events.jsonl"
+        path: "{{module_data_root}}/blockchain/transaction/events/transaction_events.jsonl"
 
     capability_side_effects::CS_MUTABLE_JSON_V0:
       policy: {}

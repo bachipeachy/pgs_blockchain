@@ -49,7 +49,7 @@ compile → build → run
 |-------|-------------|-------|
 | **compile** | Source artifacts validated against invariants | `pgs_governance` / `pgs_compiler` |
 | **build** | Validated artifacts materialized into a closed snapshot | `pgs_compiler` → `pgs_workspace/protocol_snapshot/` |
-| **run** | Runtime reads snapshot and executes | `pgs_workspace` (omnibachi CLI) |
+| **run** | Runtime reads snapshot and executes | `pgs_workspace` (pgs_runtime CLI) |
 
 The snapshot is sealed at build time. No behavior enters at execution time that was not in the snapshot.
 
@@ -93,7 +93,7 @@ Test payloads for each workflow live in `pgs_blockchain/testbed/` under their re
 From `pgs_workspace`:
 
 ```bash
-omnibachi run \
+pgs_runtime run \
   --wf blockchain::WF_REGISTER_ACTOR_UNVERIFIED_V0 \
   --payload ../pgs_blockchain/pgs_blockchain/testbed/identity/payload_register_actor.json \
   --data-root $(pwd)/data \

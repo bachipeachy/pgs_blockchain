@@ -47,9 +47,7 @@ KYC-based lookup requires:
 
 ## 5. Outputs
 
-| Field | Type | Description |
-|-------|------|-------------|
-| address | string | Registry address assigned |
+No outputs. This CC writes to the registry as a side effect; it does not return data to the caller.
 
 ---
 

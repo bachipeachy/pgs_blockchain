@@ -72,7 +72,8 @@ IN_WALLET_CREATED_V0
 | CC_CREATE_WALLET_RECORD_V0 | CC | Assemble and persist wallet record |
 | CC_APPEND_WALLET_EVENT_V0 | CC | Emit wallet created event |
 | CC_NOTIFY_WALLET_CREATED_V0 | CC | Send wallet creation notification email |
-| EXIT | EXIT | Terminal node |
+| EXIT | EXIT | Terminal node (failure / early exit) |
+| EXIT_SUCCESS | EXIT | Terminal node (successful wallet creation) |
 
 ---
 

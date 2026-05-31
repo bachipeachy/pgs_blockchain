@@ -38,6 +38,8 @@ Storage paths are governance concern, not runtime implementation detail. This ST
 - WALLET_EVENTS: Wallet lifecycle events
 - TRANSACTION_EVENTS: Transaction lifecycle events
 - ACTOR_EVENTS: Actor lifecycle events
+- VALIDATOR: Validator registry (actor_id → validator record pointer)
+- VALIDATOR_EVENTS: Validator lifecycle events
 
 ---
 
@@ -83,6 +85,14 @@ core:
     ACTOR_EVENTS:
       description: "Actor lifecycle event journal"
       path: "blockchain/identity/events/identity_events.jsonl"
+
+    VALIDATOR:
+      description: "Validator registry (actor_id → validator record; CS_MUTABLE_JSON_V0)"
+      path: "blockchain/consensus_pos/registry/validators.json"
+
+    VALIDATOR_EVENTS:
+      description: "Validator lifecycle event journal"
+      path: "blockchain/consensus_pos/events/validator_events.jsonl"
 
   resolution:
     description: "Runtime path resolution strategy"

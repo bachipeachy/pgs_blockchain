@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Validator — Blockchain Wallet</title>
+    <link rel="stylesheet" href="css/wallet.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <img src="img/pgs_logo.png" alt="PGS" class="logo">
+            <h1 class="app-title">Blockchain Wallet</h1>
+            <img src="img/ob_logo.png" alt="PGS" class="logo">
+        </div>
+        <nav class="screen-nav">
+            <a href="register_actor.html">Register Actor</a>
+            <a href="verify_actor.html">Verify Actor</a>
+            <a href="create_wallet.html">Create Wallet</a>
+            <a href="submit_transaction.html">Submit Transaction</a>
+            <a href="register_validator.html" class="active">Register Validator</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Validator Registration</h2>
+
+        <form id="validator-form" data-workflow="blockchain::WF_REGISTER_VALIDATOR_V0"
+              data-structure="governance.layers::STRUCTURE_RUNTIME_EXECUTION_V0"
+              onsubmit="event.preventDefault(); submitWorkflow('validator-form');">
+
+            <div class="form-group">
+                <label for="actor_id">Actor ID</label>
+                <input type="text" id="actor_id" data-field="validator_record.actor_id" required
+                       placeholder="AC_...">
+            </div>
+
+            <div class="form-group">
+                <label for="pubkey">BLS Public Key</label>
+                <input type="text" id="pubkey" data-field="validator_record.pubkey" required
+                       value="0xb301803f8b5ac4a1133581fc676dfedc60d891dd5fa99028805e5ea5b08d3491af75d0707adab3b70c6a6a580217bf81">
+            </div>
+
+            <div class="form-group">
+                <label for="withdrawal_credentials">Withdrawal Credentials</label>
+                <input type="text" id="withdrawal_credentials" data-field="validator_record.withdrawal_credentials" required
+                       value="0x00fc3109a5e43640f80c82734e71c18d08c81f4bfdff2c9f4a5aeaa5e26e12c7">
+            </div>
+
+            <div class="form-group">
+                <label for="effective_balance">Effective Balance (Gwei)</label>
+                <input type="number" id="effective_balance" data-field="validator_record.effective_balance" required
+                       value="32000000000">
+            </div>
+
+            <div class="form-group">
+                <label for="node_name">Node Name</label>
+                <input type="text" id="node_name" data-field="validator_record.node_name" required
+                       value="bachi8-validator-node-01">
+            </div>
+
+            <button type="submit" class="primary-button">Register Validator</button>
+        </form>
+
+        <div id="result" class="result-panel"></div>
+    </div>
+
+    <footer class="app-footer">
+        PGS Thin Client Transport v0 — Protocol-Governed Systems
+    </footer>
+
+    <script src="js/wallet_bridge.js"></script>
+</body>
+</html>

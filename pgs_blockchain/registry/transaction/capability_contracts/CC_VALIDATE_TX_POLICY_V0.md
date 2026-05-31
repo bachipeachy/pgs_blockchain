@@ -55,6 +55,7 @@ Balance validation is deferred to the consensus module.
 | Field | Type | Description |
 |-------|------|-------------|
 | from_address | string | EOA address from wallet record |
+| current_nonce | integer | Current nonce for the wallet |
 | wallet_record | object | Full wallet record for downstream use |
 
 ---

@@ -6,7 +6,7 @@
 - **Artifact Kind:** intent
 - **Governed By:** CONSTITUTION_INTENT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** canonical
 - **Supersedes:** NONE
 - **Dependencies:** WF_REGISTER_VALIDATOR_V0
 
@@ -43,8 +43,10 @@ Validator registration is the entry point for consensus participation:
 | validator_record.actor_id | string | true | PGS actor ID — primary key; must exist in the actor registry |
 | validator_record.pubkey | string | true | BLS12-381 signing public key (hex-encoded, 0x-prefixed) |
 | validator_record.withdrawal_credentials | string | true | Withdrawal destination credential (hex-encoded, 0x-prefixed) |
-| validator_record.effective_balance | integer | true | Declared stake in Gwei — must be ≥ 32000000000 (32 ETH) |
-| validator_record.node_name | string | true | Human-readable validator node name |
+| validator_record.effective_balance | integer | true | Declared stake in BACHI — must be ≥ 32000000000 |
+| validator_record.status | string | true | Initial lifecycle status — enum: ACTIVE_ONGOING, EXITED, SLASHED |
+| validator_record.activation_epoch | integer | true | Epoch at which this validator became active |
+| validator_record.exit_epoch | integer or null | true | Epoch at which this validator exits; null if not scheduled |
 
 ---
 
@@ -63,7 +65,8 @@ Validator registration is the entry point for consensus participation:
 - **Notes:**
   - Actor must already be registered in the identity registry (enforced by CC_CHECK_ACTOR_EXISTS_V0)
   - One actor maps to at most one validator record (enforced by CC_CHECK_VALIDATOR_EXISTS_V0 duplicate gate)
-  - effective_balance minimum is 32 ETH (32000000000 Gwei) per ETH2 protocol specification
+  - effective_balance minimum is 32000000000
+  - status, activation_epoch, and exit_epoch are canonical lifecycle fields required for CC_QUERY_ELIGIBLE_VALIDATORS_V0 eligibility filtering (status=ACTIVE_ONGOING AND effective_balance present)
 
 ---
 
@@ -101,9 +104,19 @@ core:
           type: integer
           required: true
           minimum: 32000000000
-        node_name:
+        status:
           type: string
           required: true
+          enum: [ACTIVE_ONGOING, EXITED, SLASHED]
+          description: Initial lifecycle status
+        activation_epoch:
+          type: integer
+          required: true
+          description: Epoch at which this validator became active
+        exit_epoch:
+          type: [integer, "null"]
+          required: true
+          description: Epoch at which this validator exits; null if not scheduled
 
   outcomes:
     ACK:

@@ -6,7 +6,7 @@
 - **Artifact Kind:** capability_contract
 - **Governed By:** CONSTITUTION_CAPABILITY_CONTRACT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** RETIRED
 - **Supersedes:** NONE
 - **Dependencies:** CT_PURE_MNEMONIC_TO_SEED_V0, CT_PURE_DERIVE_MASTER_KEY_V0, CT_PURE_DERIVE_CHILD_KEY_V0, CT_PURE_KECCAK256_HASH_V0, CT_PURE_ECDSA_SIGN_V0
 

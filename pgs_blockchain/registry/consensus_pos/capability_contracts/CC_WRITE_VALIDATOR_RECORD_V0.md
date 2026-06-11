@@ -6,7 +6,7 @@
 - **Artifact Kind:** capability_contract
 - **Governed By:** CONSTITUTION_CAPABILITY_CONTRACT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** canonical
 - **Supersedes:** NONE
 - **Dependencies:** CS_MUTABLE_JSON_V0
 
@@ -41,6 +41,18 @@ Validator record persistence:
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | validator_record | object | true | Full validator registration payload keyed by actor_id |
+| validator_record.actor_id | string | true | PGS actor ID — store key |
+| validator_record.pubkey | string | true | BLS12-381 signing public key (hex, 0x-prefixed) |
+| validator_record.withdrawal_credentials | string | true | Withdrawal credential (hex, 0x-prefixed) |
+| validator_record.effective_balance | integer | true | Declared stake in Gwei (≥ 32000000000) |
+| validator_record.balance | integer | true | Current balance in Gwei (initial = effective_balance) |
+| validator_record.slashed | boolean | true | Whether validator has been slashed (initial: false) |
+| validator_record.status | string | true | Validator lifecycle status (initial: PENDING_INITIALIZED) |
+| validator_record.activation_eligibility_epoch | integer | false | Epoch when eligible for activation (null until set) |
+| validator_record.activation_epoch | integer | false | Epoch when activated (null until set) |
+| validator_record.exit_epoch | integer | false | Epoch when exited (null until set) |
+| validator_record.withdrawable_epoch | integer | false | Epoch when withdrawable (null until set) |
+| validator_record.registered_at | string | true | ISO 8601 timestamp of registration |
 
 ---
 
@@ -81,6 +93,46 @@ core:
     validator_record:
       type: object
       required: true
+      fields:
+        actor_id:
+          type: string
+          required: true
+        pubkey:
+          type: string
+          required: true
+        withdrawal_credentials:
+          type: string
+          required: true
+        effective_balance:
+          type: integer
+          required: true
+          minimum: 32000000000
+        balance:
+          type: integer
+          required: true
+        slashed:
+          type: boolean
+          required: true
+        status:
+          type: string
+          required: true
+          enum: [PENDING_INITIALIZED, PENDING_QUEUED, ACTIVE_ONGOING, ACTIVE_EXITING, ACTIVE_SLASHED, EXITED_UNSLASHED, EXITED_SLASHED, WITHDRAWAL_POSSIBLE, WITHDRAWAL_DONE]
+        activation_eligibility_epoch:
+          type: integer
+          required: false
+        activation_epoch:
+          type: integer
+          required: false
+        exit_epoch:
+          type: integer
+          required: false
+        withdrawable_epoch:
+          type: integer
+          required: false
+        registered_at:
+          type: string
+          required: true
+          format: date-time
 
   outputs: {}
 

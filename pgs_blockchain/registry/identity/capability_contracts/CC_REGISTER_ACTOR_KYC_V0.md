@@ -31,8 +31,9 @@ KYC-based lookup requires:
 
 | Step | Capability | Type | Operation |
 |------|------------|------|-----------|
-| 1 | CT_PURE_GENERATE_ID_V0 | CT | GENERATE_ID |
-| 2 | CS_REGISTRY_V0 | CS | REGISTER |
+| 1 | CT_PURE_GENERATE_ID_V0 | CT | GENERATE_ID (A_KEY prefix) |
+| 2 | CS_REGISTRY_V0 | CS | REGISTER (A_KEY → actor_id) |
+| 3 | CS_REGISTRY_V0 | CS | REGISTER (actor_id → actor_id) |
 
 ---
 
@@ -99,7 +100,7 @@ core:
       transform: capability_transforms::CT_PURE_GENERATE_ID_V0
       op: GENERATE_ID
       inputs:
-        prefix: KYC
+        prefix: A_KEY
         data:
           first_name: $.inputs.actor_record.first_name
           last_name: $.inputs.actor_record.last_name
@@ -120,6 +121,22 @@ core:
         target_cs: CS_APPENDONLY_JSONL_V0
         target_ref: $.inputs.actor_id
         stream_id: $.inputs.actor_id
+      outputs: {}
+      result_surface: [SUCCESS, ALREADY_EXISTS, VIOLATION, BACKEND_ERROR]
+      on_result:
+        SUCCESS: register_actor_id
+        ALREADY_EXISTS: register_actor_id
+        VIOLATION: exit
+        BACKEND_ERROR: exit
+
+    - step: register_actor_id
+      side_effect: capability_side_effects::CS_REGISTRY_V0
+      store: ACTOR
+      op: REGISTER
+      inputs:
+        key: $.inputs.actor_id
+        target_cs: CS_APPENDONLY_JSONL_V0
+        target_ref: $.inputs.actor_id
       outputs: {}
       result_surface: [SUCCESS, ALREADY_EXISTS, VIOLATION, BACKEND_ERROR]
       on_result:

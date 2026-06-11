@@ -47,10 +47,8 @@ core:
         path: "{{module_data_root}}/blockchain/identity/registry/actors.json"
 
     capability_side_effects::CS_MUTABLE_JSON_V0:
-      policy:
-        path: "{{module_data_root}}/blockchain/consensus_pos/registry/validators.json"
+      policy: {}
 
     capability_side_effects::CS_APPENDONLY_JSONL_V0:
-      policy:
-        path: "{{module_data_root}}/blockchain/consensus_pos/events/validator_events.jsonl"
+      policy: {}
 ```

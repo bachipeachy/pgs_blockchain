@@ -1,5 +1,5 @@
 /**
- * wallet_bridge.js — Thin JS bridge for PGS wallet demo.
+ * pgs_bridge.js — Thin JS bridge for PGS HTTP testbed.
  *
  * Zero schema awareness. Zero workflow branching. Zero validation.
  * PGS handles all business logic. This bridge only:
@@ -17,8 +17,9 @@ async function submitWorkflow(formId) {
     // Harvest payload from data-field attributes
     const payload = {};
     form.querySelectorAll('[data-field]').forEach(function(input) {
-        const value = input.tagName === 'SELECT' ? input.value : input.value;
-        if (value !== '') {
+        const raw = input.value;
+        if (raw !== '') {
+            const value = input.type === 'number' ? Number(raw) : raw;
             setDeep(payload, input.getAttribute('data-field'), value);
         }
     });
@@ -110,6 +111,10 @@ function renderResult(el, result) {
     if (p.utxo_address) {
         html += '<div class="result-field"><span class="label">UTXO Address</span> '
              +  '<span class="value">' + p.utxo_address + '</span></div>';
+    }
+    if (p.block_id) {
+        html += '<div class="result-field"><span class="label">Block ID</span> '
+             +  '<span class="value">' + p.block_id + '</span></div>';
     }
     if (p.tx_id) {
         html += '<div class="result-field"><span class="label">TX ID</span> '

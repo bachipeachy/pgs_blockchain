@@ -6,7 +6,7 @@
 - **Artifact Kind:** capability_contract
 - **Governed By:** CONSTITUTION_CAPABILITY_CONTRACT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** RETIRED
 - **Supersedes:** NONE
 - **Dependencies:** CS_REGISTRY_V0, CS_MUTABLE_JSON_V0, CT_PURE_EXTRACT_WALLET_TX_FIELDS_V0
 

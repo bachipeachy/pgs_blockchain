@@ -6,9 +6,9 @@
 - **Artifact Kind:** capability_contract
 - **Governed By:** CONSTITUTION_CAPABILITY_CONTRACT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** canonical
 - **Supersedes:** NONE
-- **Dependencies:** CT_PURE_GENERATE_ID_V0, CS_REGISTRY_V0, CS_APPENDONLY_JSONL_V0, CS_REGISTRY_V0
+- **Dependencies:** CT_PURE_GENERATE_ID_V0, CS_REGISTRY_V0, CS_APPENDONLY_JSONL_V0, CS_MUTABLE_JSON_V0
 
 ---
 
@@ -33,7 +33,8 @@ and wallet_id only — no PII.
 | 1 | CT_PURE_GENERATE_ID_V0 | CT | GENERATE_ID |
 | 2 | CS_REGISTRY_V0 | CS | REGISTER |
 | 3 | CS_APPENDONLY_JSONL_V0 | CS | APPEND |
-| 4 | CS_REGISTRY_V0 | CS | REGISTER |
+| 4 | CS_MUTABLE_JSON_V0 | CS | WRITE (pending tx record → MEMPOOL store) |
+| 5 | CS_REGISTRY_V0 | CS | REGISTER |
 
 ---
 
@@ -41,21 +42,16 @@ and wallet_id only — no PII.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| tx_id | string | true | Transaction identifier |
-| tx_hash | string | true | Transaction hash |
-| tx_type | string | true | Transaction type (ETH) |
-| from_address | string | true | Sender address |
-| to_address | string | true | Destination address |
-| value | string | true | Transfer value in wei |
-| nonce | integer | true | Transaction nonce |
-| gas_limit | integer | true | Gas limit |
-| max_fee_per_gas | string | true | Max fee per gas |
-| max_priority_fee_per_gas | string | true | Max priority fee |
-| data | string | true | Transaction data |
-| chain_id | integer | true | Chain identifier |
-| signature | object | true | {v, r, s} signature |
-| wallet_id | string | true | Source wallet |
-| actor_id | string | true | Submitting actor |
+| tx_id | string | true | Transaction identifier (TX-prefixed, generated upstream) |
+| tx_hash | string | true | Transaction hash (TX-prefixed, generated upstream) |
+| tx_type | string | true | Transaction type — injected as wf_literal by each typed WF |
+| from_wallet_id | string | false | Source wallet (null for MINT, REWARD) |
+| to_wallet_id | string | false | Destination wallet (null for BURN, POOL) |
+| amount | number | true | Transaction amount in BACHI |
+| actor_id | string | false | Submitting actor (null for SYSTEM transactions) |
+| gas_limit | integer | false | Gas limit (ENDUSER transactions only) |
+| max_fee_per_gas | string | false | Max fee per gas (ENDUSER transactions only) |
+| max_priority_fee_per_gas | string | false | Max priority fee per gas (ENDUSER transactions only) |
 
 ---
 
@@ -92,48 +88,40 @@ core:
     tx_id:
       type: string
       required: true
+      description: Transaction identifier (T-prefixed)
     tx_hash:
       type: string
       required: true
+      description: Transaction hash (T_HASH-prefixed)
     tx_type:
       type: string
       required: true
-    from_address:
+      description: Transaction type; injected as wf_literal by each typed WF
+    from_wallet_id:
       type: string
-      required: true
-    to_address:
+      required: false
+      description: Source wallet (null for MINT, REWARD)
+    to_wallet_id:
       type: string
+      required: false
+      description: Destination wallet (null for BURN, POOL)
+    amount:
+      type: number
       required: true
-    value:
-      type: string
-      required: true
-    nonce:
-      type: integer
-      required: true
-    gas_limit:
-      type: integer
-      required: true
-    max_fee_per_gas:
-      type: string
-      required: true
-    max_priority_fee_per_gas:
-      type: string
-      required: true
-    data:
-      type: string
-      required: true
-    chain_id:
-      type: integer
-      required: true
-    signature:
-      type: object
-      required: true
-    wallet_id:
-      type: string
-      required: true
+      description: Transaction amount in BACHI
     actor_id:
       type: string
-      required: true
+      required: false
+      description: Submitting actor (null for SYSTEM transactions)
+    gas_limit:
+      type: integer
+      required: false
+    max_fee_per_gas:
+      type: string
+      required: false
+    max_priority_fee_per_gas:
+      type: string
+      required: false
 
   outputs:
     result_status:
@@ -144,31 +132,32 @@ core:
     on_input_failure: VIOLATION
 
   pipeline:
-    - step: generate_nonce_key
+    - step: generate_tx_key
       transform: capability_transforms::CT_PURE_GENERATE_ID_V0
       op: GENERATE_ID
       inputs:
-        prefix: NONCE
+        prefix: T_KEY
         data:
-          from_address: $.inputs.from_address
-          nonce: $.inputs.nonce
+          tx_id: $.inputs.tx_id
+          tx_type: $.inputs.tx_type
       outputs:
-        nonce_key: $.capability_result.id
+        tx_key: $.capability_result.id
       result_surface: [SUCCESS, VIOLATION]
       on_result:
         SUCCESS: continue
         VIOLATION: exit
 
-    - step: register_nonce
+    - step: register_tx_key
       side_effect: capability_side_effects::CS_REGISTRY_V0
       op: REGISTER
       inputs:
-        key: $.results.generate_nonce_key.nonce_key
+        key: $.results.generate_tx_key.tx_key
         target_cs: capability_side_effects::CS_MUTABLE_JSON_V0
-        target_ref: $.inputs.from_address
+        target_ref: $.inputs.tx_id
         metadata:
-          nonce: $.inputs.nonce
-          wallet_id: $.inputs.wallet_id
+          tx_type: $.inputs.tx_type
+          from_wallet_id: $.inputs.from_wallet_id
+          to_wallet_id: $.inputs.to_wallet_id
       outputs:
         result_status: $.result_status
       result_surface: [SUCCESS, ALREADY_EXISTS, VIOLATION, BACKEND_ERROR]
@@ -189,22 +178,39 @@ core:
           tx_id: $.inputs.tx_id
           tx_hash: $.inputs.tx_hash
           tx_type: $.inputs.tx_type
-          from_address: $.inputs.from_address
-          to_address: $.inputs.to_address
-          value: $.inputs.value
-          nonce: $.inputs.nonce
+          from_wallet_id: $.inputs.from_wallet_id
+          to_wallet_id: $.inputs.to_wallet_id
+          amount: $.inputs.amount
+          actor_id: $.inputs.actor_id
           gas_limit: $.inputs.gas_limit
           max_fee_per_gas: $.inputs.max_fee_per_gas
           max_priority_fee_per_gas: $.inputs.max_priority_fee_per_gas
-          data: $.inputs.data
-          chain_id: $.inputs.chain_id
-          signature: $.inputs.signature
-          wallet_id: $.inputs.wallet_id
-          actor_id: $.inputs.actor_id
           status: PENDING
           created_at: "{{timestamp}}"
       outputs:
         result_status: $.result_status
+      result_surface: [SUCCESS, VIOLATION, BACKEND_ERROR]
+      on_result:
+        SUCCESS: continue
+        VIOLATION: exit
+        BACKEND_ERROR: exit
+
+    - step: write_pending_tx
+      side_effect: capability_side_effects::CS_MUTABLE_JSON_V0
+      store: MEMPOOL
+      op: WRITE
+      inputs:
+        key: $.inputs.tx_id
+        value:
+          tx_id: $.inputs.tx_id
+          tx_hash: $.inputs.tx_hash
+          tx_type: $.inputs.tx_type
+          from_wallet_id: $.inputs.from_wallet_id
+          to_wallet_id: $.inputs.to_wallet_id
+          amount: $.inputs.amount
+          actor_id: $.inputs.actor_id
+          status: PENDING
+      outputs: {}
       result_surface: [SUCCESS, VIOLATION, BACKEND_ERROR]
       on_result:
         SUCCESS: continue
@@ -220,7 +226,7 @@ core:
         target_ref: $.inputs.tx_hash
         metadata:
           tx_type: $.inputs.tx_type
-          wallet_id: $.inputs.wallet_id
+          from_wallet_id: $.inputs.from_wallet_id
           status: PENDING
       outputs:
         result_status: $.result_status

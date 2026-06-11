@@ -40,6 +40,12 @@ Storage paths are governance concern, not runtime implementation detail. This ST
 - ACTOR_EVENTS: Actor lifecycle events
 - VALIDATOR: Validator registry (actor_id → validator record pointer)
 - VALIDATOR_EVENTS: Validator lifecycle events
+- CONSENSUS_ROUNDS: Consensus round journal (append-only)
+- CONSENSUS_EVENTS: Consensus lifecycle event journal (append-only)
+- BLOCKS: Block state storage (mutable)
+- BLOCK_EVENTS: Block lifecycle event journal (append-only)
+- MEMPOOL: Ephemeral pending transaction staging buffer (CS_MUTABLE_JSON_V0)
+- MEMPOOL_INDEX: Mempool deduplication registry for tx_id and tx_hash uniqueness (CS_REGISTRY_V0)
 
 ---
 
@@ -93,6 +99,30 @@ core:
     VALIDATOR_EVENTS:
       description: "Validator lifecycle event journal"
       path: "blockchain/consensus_pos/events/validator_events.jsonl"
+
+    CONSENSUS_ROUNDS:
+      description: "Consensus round journal (CS_APPENDONLY_JSONL_V0)"
+      path: "blockchain/consensus_pos/rounds/rounds.jsonl"
+
+    CONSENSUS_EVENTS:
+      description: "Consensus lifecycle event journal (CS_APPENDONLY_JSONL_V0)"
+      path: "blockchain/consensus_pos/events/consensus_events.jsonl"
+
+    BLOCKS:
+      description: "Block state storage (block_id → block record; CS_MUTABLE_JSON_V0)"
+      path: "blockchain/block/blocks/blocks.json"
+
+    BLOCK_EVENTS:
+      description: "Block lifecycle event journal (CS_APPENDONLY_JSONL_V0)"
+      path: "blockchain/block/events/block_events.jsonl"
+
+    MEMPOOL:
+      description: "Ephemeral staging buffer for pending transactions (CS_MUTABLE_JSON_V0); keyed by tx_id; deleted on drain"
+      path: "blockchain/mempool/state/mempool.json"
+
+    MEMPOOL_INDEX:
+      description: "Deduplication registry for tx_id and tx_hash uniqueness (CS_REGISTRY_V0)"
+      path: "blockchain/mempool/registry/mempool_index.json"
 
   resolution:
     description: "Runtime path resolution strategy"

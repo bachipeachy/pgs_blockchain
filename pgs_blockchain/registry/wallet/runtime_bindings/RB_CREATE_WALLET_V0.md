@@ -29,8 +29,7 @@ core:
         path: "{{module_data_root}}/blockchain/identity/registry/actors.json"
 
     capability_side_effects::CS_APPENDONLY_JSONL_V0:
-      policy:
-        path: "{{module_data_root}}/blockchain/wallet/events/wallet_events.jsonl"
+      policy: {}
 
     capability_side_effects::CS_MUTABLE_JSON_V0:
       policy: {}

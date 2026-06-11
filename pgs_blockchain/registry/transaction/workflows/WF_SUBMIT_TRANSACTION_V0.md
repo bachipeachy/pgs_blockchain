@@ -6,15 +6,15 @@
 - **Artifact Kind:** workflow
 - **Governed By:** CONSTITUTION_WORKFLOW_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** canonical
 - **Supersedes:** NONE
-- **Dependencies:** IN_TRANSACTION_SUBMITTED_V0, CC_RESOLVE_ACTOR_ID_V0, CC_VALIDATE_TX_STRUCTURE_V0, CC_VALIDATE_TX_POLICY_V0, CC_RESERVE_NONCE_V0, CC_BUILD_ETH_TX_V0, CC_SIGN_TRANSACTION_V0, CC_HASH_TRANSACTION_V0, CC_PERSIST_MEMPOOL_TX_V0, CC_APPEND_TX_EVENT_V0
+- **Dependencies:** IN_TRANSACTION_SUBMITTED_V0, CC_RESOLVE_ACTOR_ID_V0, CC_VALIDATE_TX_STRUCTURE_V0, CC_VALIDATE_TX_POLICY_V0, CC_RESERVE_NONCE_V0, CC_BUILD_ETH_TX_V0, CC_SIGN_TRANSACTION_V0, CC_HASH_TRANSACTION_V0, CC_WRITE_MEMPOOL_TX_V0, CC_APPEND_TX_EVENT_V0
 
 ---
 
 ## 1. Intent
 
-Submit an ETH transaction: validate structure and policy, reserve nonce, build unsigned transaction, sign, hash, persist to mempool, and emit lifecycle event.
+Submit an ETH transaction: validate structure and policy, reserve nonce, build unsigned transaction, sign, hash, write to mempool, and emit lifecycle event.
 
 ---
 
@@ -28,7 +28,7 @@ Transaction submission requires:
 - EIP-1559 transaction building
 - ECDSA signing with re-derived keys
 - Keccak-256 hashing of signed transaction
-- Append-only mempool persistence
+- Mempool staging buffer persistence (MEMPOOL store)
 - Lifecycle event emission
 
 All failure paths exit immediately. No partial side-effects — signing must complete before persistence.
@@ -46,7 +46,7 @@ IN_TRANSACTION_SUBMITTED_V0
     │         │             │             │             ├─ SUCCESS → CC_BUILD_ETH_TX_V0
     │         │             │             │             │             ├─ SUCCESS → CC_SIGN_TRANSACTION_V0
     │         │             │             │             │             │             ├─ SUCCESS → CC_HASH_TRANSACTION_V0
-    │         │             │             │             │             │             │             ├─ SUCCESS → CC_PERSIST_MEMPOOL_TX_V0
+    │         │             │             │             │             │             │             ├─ SUCCESS → CC_WRITE_MEMPOOL_TX_V0
     │         │             │             │             │             │             │             │             ├─ SUCCESS → CC_APPEND_TX_EVENT_V0
     │         │             │             │             │             │             │             │             │             ├─ SUCCESS → EXIT_SUCCESS
     │         │             │             │             │             │             │             │             │             └─ * → EXIT
@@ -76,7 +76,7 @@ IN_TRANSACTION_SUBMITTED_V0
 | CC_BUILD_ETH_TX_V0 | CC | Generate tx_id and build unsigned EIP-1559 bytes |
 | CC_SIGN_TRANSACTION_V0 | CC | Re-derive key and sign transaction |
 | CC_HASH_TRANSACTION_V0 | CC | Compute keccak-256 hash of signed transaction |
-| CC_PERSIST_MEMPOOL_TX_V0 | CC | Persist to mempool and register in tx index |
+| CC_WRITE_MEMPOOL_TX_V0 | CC | Write to MEMPOOL store and register identity keys in MEMPOOL_INDEX |
 | CC_APPEND_TX_EVENT_V0 | CC | Emit transaction lifecycle event |
 | EXIT_SUCCESS | EXIT | Successful completion |
 | EXIT_DUPLICATE | EXIT | Duplicate nonce rejection |
@@ -208,19 +208,22 @@ core:
       inputs:
         signed_tx_bytes: $.results.CC_SIGN_TRANSACTION_V0.signed_tx_bytes
       next:
-        SUCCESS: CC_PERSIST_MEMPOOL_TX_V0
+        SUCCESS: CC_WRITE_MEMPOOL_TX_V0
         VIOLATION: EXIT
 
-    CC_PERSIST_MEMPOOL_TX_V0:
+    CC_WRITE_MEMPOOL_TX_V0:
       type: CC
-      code: CC_PERSIST_MEMPOOL_TX_V0
+      code: CC_WRITE_MEMPOOL_TX_V0
       inputs:
         tx_id: $.results.CC_BUILD_ETH_TX_V0.tx_id
         tx_hash: $.results.CC_HASH_TRANSACTION_V0.tx_hash
         tx_type: ETH
-        from_address: $.results.CC_VALIDATE_TX_POLICY_V0.from_address
-        to_address: $.payload.to_address
-        value: $.payload.value
+        actor_id: $.results.CC_RESOLVE_ACTOR_ID_V0.actor_id
+        from_wallet_id: $.results.CC_VALIDATE_TX_POLICY_V0.from_address
+        to_wallet_id: $.payload.to_address
+        amount: $.payload.value
+        created_at: "{{timestamp}}"
+        wallet_id: $.payload.wallet_id
         nonce: $.results.CC_RESERVE_NONCE_V0.nonce
         gas_limit: $.payload.gas_limit
         max_fee_per_gas: $.payload.max_fee_per_gas
@@ -228,8 +231,6 @@ core:
         data: $.payload.data
         chain_id: 66
         signature: $.results.CC_SIGN_TRANSACTION_V0.signature
-        wallet_id: $.payload.wallet_id
-        actor_id: $.results.CC_RESOLVE_ACTOR_ID_V0.actor_id
       next:
         SUCCESS: CC_APPEND_TX_EVENT_V0
         ALREADY_EXISTS: EXIT_DUPLICATE

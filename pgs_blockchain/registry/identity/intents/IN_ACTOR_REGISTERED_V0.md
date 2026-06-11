@@ -43,6 +43,8 @@ Actor registration is the entry point for identity management:
 | actor_record.first_name | string | true | Actor first name |
 | actor_record.last_name | string | true | Actor last name |
 | actor_record.email_registration | string | true | Actor email (format: email) |
+| actor_record.currency_preference | string | false | Preferred currency (default: BACHI) |
+| actor_record.language | string | false | Preferred language code (default: en) |
 
 ---
 
@@ -92,6 +94,16 @@ core:
           type: string
           required: true
           format: email
+        currency_preference:
+          type: string
+          required: false
+          default: BACHI
+          description: Preferred currency
+        language:
+          type: string
+          required: false
+          default: en
+          description: Preferred language code
 
   outcomes:
     ACK:

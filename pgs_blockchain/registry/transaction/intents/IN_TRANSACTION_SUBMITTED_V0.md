@@ -6,7 +6,7 @@
 - **Artifact Kind:** intent
 - **Governed By:** CONSTITUTION_INTENT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** RETIRED
 - **Supersedes:** NONE
 - **Dependencies:** WF_SUBMIT_TRANSACTION_V0
 
@@ -73,6 +73,8 @@ Transaction submission requires:
 ```yaml
 in_code: IN_TRANSACTION_SUBMITTED_V0
 version: v0
+status: RETIRED
+superseded_by: [IN_TRANSFER_V0, IN_STAKE_V0, IN_UNSTAKE_V0, IN_MINT_V0, IN_BURN_V0, IN_POOL_V0, IN_REWARD_V0, IN_SLASH_V0]
 governed_by: fb.topology::CONSTITUTION_INTENT_V0
 
 core:

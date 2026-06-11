@@ -12,7 +12,7 @@ It is obvious blockchain implementation is partial upto transaction submission o
 
 Behavior is declared in protocol, executed by runtime, implemented in capabilities, and observed via traces and state.
 
-> **New to PGS?** This is one of eight repositories in the Protocol-Governed Systems ecosystem.
+> **New to PGS?** This is one of the repositories in the Protocol-Governed Systems ecosystem.
 > For orientation, architecture overview, and end-to-end execution, start at [pgs_workspace](https://github.com/bachipeachy/pgs_workspace).
 
 ---
@@ -213,6 +213,7 @@ pgs_blockchain/
 | `pgs_capabilities` | Implements CT/CS used here |
 | **`pgs_blockchain` ← here** | **Defines domain behavior** |
 | `pgs_ai_governance` | Governance domain |
+| `pgs_change_mgmt` | Governed SDLC — Change Request to Authoring Mandate (new in v0.5.0) |
 | `pgs_workspace` | Entry point — run and observe |
 
 ---

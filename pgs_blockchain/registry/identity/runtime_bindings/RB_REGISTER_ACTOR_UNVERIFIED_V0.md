@@ -38,6 +38,7 @@ governed_by: fb.topology::CONSTITUTION_RUNTIME_BINDING_V0
 core:
   summary: Runtime binding for actor registration workflow
   description: Binds capability side effects to concrete runtime implementations for actor registration.
+  storage_structure: blockchain::STRUCTURE_BLOCKCHAIN_STORAGE_V0
 
   bindings:
     capability_side_effects::CS_REGISTRY_V0:
@@ -45,6 +46,5 @@ core:
         path: "{{module_data_root}}/blockchain/identity/registry/actors.json"
 
     capability_side_effects::CS_APPENDONLY_JSONL_V0:
-      policy:
-        path: "{{module_data_root}}/blockchain/identity/events/identity_events.jsonl"
+      policy: {}
 ```

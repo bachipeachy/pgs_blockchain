@@ -6,7 +6,7 @@
 - **Artifact Kind:** workflow
 - **Governed By:** CONSTITUTION_WORKFLOW_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** canonical
 - **Supersedes:** NONE
 - **Dependencies:** IN_VALIDATOR_REGISTERED_V0, CC_CHECK_ACTOR_EXISTS_V0, CC_CHECK_VALIDATOR_EXISTS_V0, CC_WRITE_VALIDATOR_RECORD_V0, CC_APPEND_VALIDATOR_EVENT_V0
 

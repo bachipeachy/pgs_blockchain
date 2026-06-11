@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propose Block — Blockchain Wallet</title>
+    <link rel="stylesheet" href="css/wallet.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <img src="img/pgs_logo.png" alt="PGS" class="logo">
+            <h1 class="app-title">Blockchain Wallet</h1>
+            <img src="img/ob_logo.png" alt="PGS" class="logo">
+        </div>
+        <nav class="screen-nav">
+            <a href="register_actor.html">Register Actor</a>
+            <a href="verify_actor.html">Verify Actor</a>
+            <a href="create_wallet.html">Create Wallet</a>
+            <a href="submit_transaction.html">Submit Transaction</a>
+            <a href="register_validator.html">Register Validator</a>
+            <a href="propose_block.html" class="active">Propose Block</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Block Proposal</h2>
+
+        <form id="propose-block-form" data-workflow="blockchain::WF_PROPOSE_BLOCK_V0"
+              data-structure="governance.layers::STRUCTURE_RUNTIME_EXECUTION_V0"
+              onsubmit="event.preventDefault(); submitWorkflow('propose-block-form');">
+
+            <div class="form-group">
+                <label for="round_number">Round Number</label>
+                <input type="number" id="round_number" data-field="round_number" required
+                       min="0" value="0">
+            </div>
+
+            <div class="form-group">
+                <label for="triggered_by">Triggered By (Actor ID)</label>
+                <input type="text" id="triggered_by" data-field="triggered_by" required
+                       placeholder="AC_...">
+            </div>
+
+            <div class="form-group">
+                <label for="timestamp">Timestamp (ISO 8601)</label>
+                <input type="text" id="timestamp" data-field="timestamp" required
+                       placeholder="2026-06-02T00:00:00.000000">
+            </div>
+
+            <button type="submit" class="primary-button">Propose Block</button>
+        </form>
+
+        <div id="result" class="result-panel"></div>
+    </div>
+
+    <footer class="app-footer">
+        PGS Thin Client Transport v0 — Protocol-Governed Systems
+    </footer>
+
+    <script src="js/pgs_bridge.js"></script>
+    <script>
+        // Auto-populate timestamp with current UTC ISO string on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const tsInput = document.getElementById('timestamp');
+            if (tsInput && !tsInput.value) {
+                tsInput.value = new Date().toISOString();
+            }
+        });
+    </script>
+</body>
+</html>

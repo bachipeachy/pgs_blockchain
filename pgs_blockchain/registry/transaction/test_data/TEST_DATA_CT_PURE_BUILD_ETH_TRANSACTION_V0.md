@@ -42,6 +42,7 @@ Test EIP-1559 Ethereum transaction building.
 
 ```yaml
 case_id: basic_valid_tx
+expected_outcome: SUCCESS
 bindings:
   chain_id: 1
   nonce: 10

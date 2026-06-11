@@ -42,6 +42,7 @@ Test wallet nonce increment and reservation.
 
 ```yaml
 case_id: increment_from_zero
+expected_outcome: SUCCESS
 bindings:
   wallet_record:
     actor_id: "ACTOR_01"
@@ -70,6 +71,7 @@ expected:
 
 ```yaml
 case_id: increment_from_positive
+expected_outcome: SUCCESS
 bindings:
   wallet_record:
     actor_id: "ACTOR_02"

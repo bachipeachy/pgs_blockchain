@@ -42,6 +42,7 @@ Test HD wallet keypair derivation.
 
 ```yaml
 case_id: derive_deterministic_v0
+expected_outcome: SUCCESS
 bindings:
   entropy_bits: 128
   entropy_bytes: "0x000102030405060708090a0b0c0d0e0f"

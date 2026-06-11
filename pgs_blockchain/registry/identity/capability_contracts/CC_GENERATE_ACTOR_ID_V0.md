@@ -47,7 +47,7 @@ Actor IDs must be:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| actor_id | string | Deterministic actor identifier (AC-prefixed) |
+| actor_id | string | Deterministic actor identifier (A-prefixed) |
 
 ---
 
@@ -95,7 +95,7 @@ core:
       transform: capability_transforms::CT_PURE_GENERATE_ID_V0
       op: GENERATE_ID
       inputs:
-        prefix: AC
+        prefix: A
         data: $.inputs.actor_record
       outputs:
         actor_id: $.capability_result.id

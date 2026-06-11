@@ -6,7 +6,7 @@
 - **Artifact Kind:** capability_contract
 - **Governed By:** CONSTITUTION_CAPABILITY_CONTRACT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** RETIRED
 - **Supersedes:** NONE
 - **Dependencies:** CT_PURE_VALIDATE_RECORD_STRUCTURE_V0
 

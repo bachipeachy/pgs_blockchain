@@ -40,8 +40,7 @@ Wallet creation requires:
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | actor_record | object | true | Actor identity data (first_name, last_name, email_registration) |
-| wallet_type | string | false | Type of wallet to create (default: standard) |
-| wallet_config | object | false | Optional configuration for the wallet (name, currency, metadata) |
+| wallet_type | string | false | Wallet type — enum: STANDARD, STAKING (default: STANDARD) |
 
 ---
 
@@ -78,11 +77,10 @@ core:
       description: Actor identity data (first_name, last_name, email_registration)
     wallet_type:
       type: string
-      default: standard
-      description: Type of wallet to create
-    wallet_config:
-      type: object
-      description: Optional configuration for the wallet (name, currency, metadata)
+      required: false
+      default: STANDARD
+      enum: [STANDARD, STAKING]
+      description: Wallet type (STANDARD for general use; STAKING for validator stake)
 
   outcomes:
     ACK:

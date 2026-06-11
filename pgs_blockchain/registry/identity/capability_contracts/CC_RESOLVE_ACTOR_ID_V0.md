@@ -99,7 +99,7 @@ core:
       transform: capability_transforms::CT_PURE_GENERATE_ID_V0
       op: GENERATE_ID
       inputs:
-        prefix: KYC
+        prefix: A_KEY
         data:
           first_name: $.inputs.actor_record.first_name
           last_name: $.inputs.actor_record.last_name

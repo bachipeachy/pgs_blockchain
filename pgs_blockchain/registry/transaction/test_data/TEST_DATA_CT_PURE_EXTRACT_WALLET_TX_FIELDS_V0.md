@@ -42,6 +42,7 @@ Test extraction of transaction fields from wallet record.
 
 ```yaml
 case_id: extract_fields_standard
+expected_outcome: SUCCESS
 bindings:
   wallet_record:
     actor_id: "ACTOR_01"

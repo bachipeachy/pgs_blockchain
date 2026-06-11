@@ -41,20 +41,11 @@ Wallet record creation:
 
 | Field | Type | Required | Source | Description |
 |-------|------|----------|--------|-------------|
-| wallet_id | string | true | CC_GENERATE_WALLET_ID_V0 | Wallet identifier to register |
+| wallet_id | string | true | CC_GENERATE_WALLET_ID_V0 | Wallet identifier (WAL-prefixed) |
 | actor_id | string | true | CC_RESOLVE_ACTOR_ID_V0 | Owner actor identifier |
-| wallet_type | string | true | payload | Wallet type (e.g., business) |
-| currency | string | true | payload | Currency code (e.g., BACHI) |
-| network | string | true | payload | Network (e.g., testnet) |
-| security_type | string | true | payload | Security type (e.g., hot) |
-| eoa_public_key_hex | string | true | CC_DERIVE_WALLET_KEYS_V0 | EOA uncompressed public key, hex |
-| eoa_address | string | true | CC_DERIVE_WALLET_KEYS_V0 | EOA Ethereum address, 0x-prefixed |
-| eoa_derivation_path | string | true | CC_DERIVE_WALLET_KEYS_V0 | Full EOA BIP32 path |
-| utxo_public_key_hex | string | true | CC_DERIVE_WALLET_KEYS_V0 | UTXO uncompressed public key, hex |
-| utxo_address | string | true | CC_DERIVE_WALLET_KEYS_V0 | UTXO Ethereum address, 0x-prefixed |
-| utxo_derivation_path | string | true | CC_DERIVE_WALLET_KEYS_V0 | Full UTXO BIP32 path |
-| master_fingerprint | string | true | CC_DERIVE_WALLET_KEYS_V0 | HASH160(master_pubkey)[:4], hex |
-| email_registration | string | true | payload | KYC registration email |
+| wallet_type | string | true | payload | Wallet type — enum: STANDARD, STAKING, MINT, BURN, POOL |
+| address | string | true | CC_GENERATE_WALLET_ID_V0 | Deterministic wallet address (0x-prefixed, 40 hex chars) |
+| currency | string | false | payload | Currency code (default: BACHI) |
 
 ---
 
@@ -106,39 +97,15 @@ core:
     wallet_type:
       type: string
       required: true
+      enum: [STANDARD, STAKING, MINT, BURN, POOL]
+    address:
+      type: string
+      required: true
+      description: Deterministic wallet address (0x-prefixed, 40 hex chars)
     currency:
       type: string
-      required: true
-    network:
-      type: string
-      required: true
-    security_type:
-      type: string
-      required: true
-    eoa_public_key_hex:
-      type: string
-      required: true
-    eoa_address:
-      type: string
-      required: true
-    eoa_derivation_path:
-      type: string
-      required: true
-    utxo_public_key_hex:
-      type: string
-      required: true
-    utxo_address:
-      type: string
-      required: true
-    utxo_derivation_path:
-      type: string
-      required: true
-    master_fingerprint:
-      type: string
-      required: true
-    email_registration:
-      type: string
-      required: true
+      required: false
+      default: BACHI
 
   outputs:
     result_status:
@@ -161,41 +128,12 @@ core:
           wallet_id: $.inputs.wallet_id
           actor_id: $.inputs.actor_id
           wallet_type: $.inputs.wallet_type
-          account_model: hybrid
-          status: active
-          network: $.inputs.network
+          address: $.inputs.address
+          balance: 0
           currency: $.inputs.currency
-          network_config:
-            chain_id: 66
-            rpc_endpoint: "http://localhost:8545"
-          security:
-            security_type: $.inputs.security_type
-            key_scheme: secp256k1
-            derivation_standard: bip44
-            coin_type: 66
-            master_fingerprint: $.inputs.master_fingerprint
-            signing:
-              derivation_root: "m/44'/66'/0'"
-              address_index_start: 0
-          addresses:
-            eoa:
-              - address: $.inputs.eoa_address
-                derivation_path: $.inputs.eoa_derivation_path
-                format: hex
-                public_key: $.inputs.eoa_public_key_hex
-            utxo:
-              - address: $.inputs.utxo_address
-                derivation_path: $.inputs.utxo_derivation_path
-                format: hex
-                public_key: $.inputs.utxo_public_key_hex
-          state:
-            eoa:
-              nonce: 0
-              balance: 0
-            utxo:
-              utxo_count: 0
-              balance: 0
-          metadata: {}
+          status: ACTIVE
+          created_at: "{{timestamp}}"
+          last_modified: "{{timestamp}}"
       outputs:
         result_status: $.capability_result.result_status
       result_surface: [SUCCESS, VIOLATION, BACKEND_ERROR]

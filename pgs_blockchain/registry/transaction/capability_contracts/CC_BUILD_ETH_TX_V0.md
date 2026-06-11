@@ -6,7 +6,7 @@
 - **Artifact Kind:** capability_contract
 - **Governed By:** CONSTITUTION_CAPABILITY_CONTRACT_V0
 - **Version:** v0
-- **Status:** draft
+- **Status:** RETIRED
 - **Supersedes:** NONE
 - **Dependencies:** CT_PURE_GENERATE_ID_V0, CT_PURE_BUILD_ETH_TRANSACTION_V0
 
@@ -123,7 +123,7 @@ core:
       transform: capability_transforms::CT_PURE_GENERATE_ID_V0
       op: GENERATE_ID
       inputs:
-        prefix: TX
+        prefix: T
         data:
           from_address: $.inputs.from_address
           to_address: $.inputs.to_address

@@ -8,7 +8,7 @@
 - **Version:** v0
 - **Status:** draft
 - **Supersedes:** NONE
-- **Dependencies:** CS_REGISTRY_V0
+- **Dependencies:** CS_MUTABLE_JSON_V0
 
 ---
 
@@ -31,9 +31,11 @@ Wallet existence gate:
 
 | Step | Capability | Type | Operation |
 |------|------------|------|-----------|
-| 1 | CS_REGISTRY_V0 | CS | RESOLVE |
+| 1 | CS_MUTABLE_JSON_V0 | CS | READ |
 
-Uses RESOLVE (not EXISTS) because the execution engine routes on `result_status`. RESOLVE returns `NOT_FOUND` when the key is absent, enabling direct workflow routing. EXISTS always returns `SUCCESS` with a boolean, which the engine cannot branch on.
+Uses READ (not EXISTS) because the execution engine routes on `result_status`. READ returns `NOT_FOUND` when the key is absent, enabling direct workflow routing. EXISTS always returns `SUCCESS` with a boolean, which the engine cannot branch on.
+
+WALLET store is a mutable JSON store (CS_MUTABLE_JSON_V0 format) — CS_REGISTRY_V0 does not apply.
 
 ---
 
@@ -98,11 +100,11 @@ core:
 
   pipeline:
     - step: check_wallet_exists
-      side_effect: capability_side_effects::CS_REGISTRY_V0
+      side_effect: capability_side_effects::CS_MUTABLE_JSON_V0
       store: WALLET
-      op: RESOLVE
+      op: READ
       inputs:
-        key_or_address: $.inputs.wallet_id
+        key: $.inputs.wallet_id
       outputs:
         result_status: $.capability_result.result_status
       result_surface: [SUCCESS, NOT_FOUND, VIOLATION, BACKEND_ERROR]

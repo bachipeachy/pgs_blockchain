@@ -135,6 +135,7 @@ core:
         seed_record:
           actor_id: $.results.CC_RESOLVE_ACTOR_ID_V0.actor_id
           type: wallet
+          wallet_type: $.payload.wallet_type
       next:
         SUCCESS: CC_CHECK_WALLET_EXISTS_V0
         VIOLATION: EXIT

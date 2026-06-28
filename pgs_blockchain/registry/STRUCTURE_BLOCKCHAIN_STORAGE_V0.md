@@ -111,6 +111,7 @@ core:
     BLOCKS:
       description: "Block state storage (block_id → block record; CS_MUTABLE_JSON_V0)"
       path: "blockchain/block/blocks/blocks.json"
+      record_type: blockchain::ENTITY_BLOCK_V0   # the canonical Block entity (what a block IS)
 
     BLOCK_EVENTS:
       description: "Block lifecycle event journal (CS_APPENDONLY_JSONL_V0)"

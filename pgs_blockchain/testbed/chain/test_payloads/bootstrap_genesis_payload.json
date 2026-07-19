@@ -1,0 +1,9 @@
+{
+  "genesis_block_content": {
+    "predecessor_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "height": 0,
+    "transactions": [
+      { "tx_type": "MINT", "amount": 1000, "from_wallet": null, "to_wallet": "W_GENESIS" }
+    ]
+  }
+}

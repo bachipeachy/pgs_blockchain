@@ -30,6 +30,10 @@ allowed_capability_transforms:
   # Domain CTs - Consensus (PoS)
   - blockchain::CT_PURE_SELECT_PROPOSER_V0
   - blockchain::CT_PURE_DERIVE_SLOT_EPOCH_V0
+  # Domain CTs - Chain
+  - blockchain::CT_PURE_HASH_BLOCK_V0
+  - blockchain::CT_PURE_EXTRACT_PREDECESSOR_HASH_V0
+  - blockchain::CT_PURE_DERIVE_BALANCES_V0
 ```
 
 ## Summary

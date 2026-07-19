@@ -1,0 +1,9 @@
+{
+  "proposed_block": {
+    "predecessor_hash": "0x408b7efaf7aaba133951b570851b4d80f1507266d77097879e3f3059399e5d2e",
+    "height": 1,
+    "transactions": [
+      { "tx_type": "TRANSFER", "amount": 250, "from_wallet": "W_GENESIS", "to_wallet": "W_ALICE" }
+    ]
+  }
+}

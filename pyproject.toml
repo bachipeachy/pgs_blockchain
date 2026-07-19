@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pgs_blockchain"
-version = "0.7.0"
-description = "PGS Blockchain Domain — identity, wallet, transaction, and consensus capability transforms"
+version = "0.8.0"
+description = "PGS Blockchain Domain — identity, wallet, transaction, consensus capability transforms and chain"
 readme = "README.md"
 requires-python = ">=3.10"
 

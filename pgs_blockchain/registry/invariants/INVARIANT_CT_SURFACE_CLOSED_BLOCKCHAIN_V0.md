@@ -26,14 +26,29 @@ core:
 
   violation_response: FAIL_IMMEDIATELY
 
-  enforced_by:
-    - blockchain::ASSERT_CT_SURFACE_CLOSED_BLOCKCHAIN_V0
 
   allowed_capability_transforms:
     - blockchain::CT_PURE_BUILD_ETH_TRANSACTION_V0
     - blockchain::CT_PURE_DERIVE_WALLET_KEYPAIRS_V0
     - blockchain::CT_PURE_EXTRACT_WALLET_TX_FIELDS_V0
     - blockchain::CT_PURE_INCREMENT_WALLET_NONCE_V0
+
+# assert_projection — parameters the compiler-derived ASSERT carries (ASSERT is derived, not authored)
+assert_projection:
+  handler: pgs_governance.registry.handlers.assert_ct_surface_closed_v0
+  scope:
+    applies_to:
+    - BLOCKCHAIN
+  allowed_capability_transforms:
+  - blockchain::CT_PURE_BUILD_ETH_TRANSACTION_V0
+  - blockchain::CT_PURE_DERIVE_WALLET_KEYPAIRS_V0
+  - blockchain::CT_PURE_EXTRACT_WALLET_TX_FIELDS_V0
+  - blockchain::CT_PURE_INCREMENT_WALLET_NONCE_V0
+  - blockchain::CT_PURE_SELECT_PROPOSER_V0
+  - blockchain::CT_PURE_DERIVE_SLOT_EPOCH_V0
+  - blockchain::CT_PURE_HASH_BLOCK_V0
+  - blockchain::CT_PURE_EXTRACT_PREDECESSOR_HASH_V0
+  - blockchain::CT_PURE_DERIVE_BALANCES_V0
 ```
 
 ---
